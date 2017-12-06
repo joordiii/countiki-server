@@ -7,7 +7,7 @@ const eventSchema = new Schema({
 
   slogan: {
     type: String
-    },
+  },
   startDate: {
     type: Date
   },
@@ -20,8 +20,8 @@ const eventSchema = new Schema({
   },
   description: {
     type: String
-    },
- /*  location: {
+  },
+  /*  location: {
     type: {
       type: String
     },
@@ -31,10 +31,10 @@ const eventSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  attendance : [{
-    lat : String,
-    lng : String
-     }]
+  attendance: [{
+    lat: String,
+    lng: String
+  }]
 });
 
 const Event = mongoose.model('Event', eventSchema);
