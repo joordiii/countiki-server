@@ -4,31 +4,34 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+const response = require('../helpers/response');
 const Event = require('../models/event').Event;
 
 /* GET Events listing. ---------------------------- */
 router.get('/', (req, res, next) => {
   Event.find({}, (err, eventList) => {
     if (err) {
-      res.json(err);
+      next(err);
       return;
     }
-    res.json(eventList);
+    response.data(req, res, eventList);
   });
 });
 
 /* GET a single Event. ---------------------------- */
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: 'Specified id is not valid' });
+    response.unprocessable(req, res, 'Specified id is not valid');
     return;
   }
 
   Event.findById(req.params.id, (err, theEvent) => {
     if (err) {
-      res.json(err);
+      next(err);
+    } else if (!theEvent) {
+      response.notFound(req, res);
     } else {
-      res.json(theEvent);
+      response.data(req, res, theEvent);
     }
   });
 });
@@ -45,11 +48,11 @@ router.post('/', (req, res, next) => {
 
   newEvent.save((err) => {
     if (err) {
-      res.json(err);
+      next(err);
       return;
     }
 
-    res.json({
+    response.data(req, res, {
       message: 'New Event created!',
       id: newEvent._id
     });
@@ -59,15 +62,15 @@ router.post('/', (req, res, next) => {
 /* DELETE an Event. --------------------------------- */
 router.delete('/:id', (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: 'Specified id is not valid' });
+    response.unprocessable(req, res, 'Specified id is not valid');
     return;
   }
 
   Event.remove({ _id: req.params.id }, (err) => {
     if (err) {
-      res.json(err);
+      next(err);
     } else {
-      return res.json({
+      return response.data(req, res, {
         message: 'Event has been removed!'
       });
     }
@@ -86,14 +89,13 @@ router.post('/:id/attend', (req, res, next) => {
 
   attendEvent.save((err) => {
     if (err) {
-      res.json(err);
-      return;
+      next(err);
+    } else {
+      response.data(req, res, {
+        message: 'New Event created!',
+        id: attendEvent._id
+      });
     }
-
-    res.json({
-      message: 'New Event created!',
-      id: attendEvent._id
-    });
   });
 });
 

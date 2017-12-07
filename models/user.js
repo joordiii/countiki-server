@@ -16,7 +16,7 @@ const userSchema = new Schema({
   address: {
     type: String
   },
-  telf: {
+  telephone: {
     type: String
   },
   email: {
