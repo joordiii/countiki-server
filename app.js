@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
+const cors = require('cors');
 
 const configurePassport = require('./helpers/passport');
 const response = require('./helpers/response');
@@ -62,6 +63,7 @@ app.use(passport.session());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors());
 
 // -- routes
 

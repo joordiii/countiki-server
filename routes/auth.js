@@ -9,14 +9,18 @@ const response = require('../helpers/response');
 const User = require('../models/user').User;
 
 router.post('/login', (req, res, next) => {
+  console.log('Hello from backend');
+  console.log(req.user);
   if (req.user) {
-    return response.forbidden();
+    return response.forbidden(req, res);
   }
   passport.authenticate('local', (err, user, info) => {
+    console.log(user);
     if (err) {
       return next(err);
     }
     if (!user) {
+      console.log('errorcito');
       return response.notFound(req, res);
     }
     req.login(user, (err) => {
@@ -29,20 +33,20 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
-  if (req.user) {
-    return response.forbidden();
-  }
+  console.log(req.body);
+  /* if (req.user) {
+    return response.forbidden(req, res);
+  } */
   const {
     organizationName,
     myAddress,
     myTelephone,
     myEmail,
     myWeb,
-    myUsername,
-    myPassword,
+    username,
+    password,
     photo
   } = req.body;
-
   if (!organizationName) {
     return response.unprocessable(req, res, 'Missing mandatory field "Organization Name".');
   }
@@ -58,10 +62,10 @@ router.post('/signup', (req, res, next) => {
   if (!myWeb) {
     return response.unprocessable(req, res, 'Missing mandatory field "Website".');
   }
-  if (!myUsername) {
+  if (!username) {
     return response.unprocessable(req, res, 'Missing mandatory field "Username".');
   }
-  if (!myPassword) {
+  if (!password) {
     return response.unprocessable(req, res, 'Missing mandatory field "Password".');
   }
   if (!photo) {
@@ -69,7 +73,7 @@ router.post('/signup', (req, res, next) => {
   }
 
   User.findOne({
-    myUsername
+    username: username
   }, 'username', (err, userExists) => {
     if (err) {
       return next(err);
@@ -79,12 +83,17 @@ router.post('/signup', (req, res, next) => {
     }
 
     const salt = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(myPassword, salt);
+    const hashPass = bcrypt.hashSync(password, salt);
 
     const newUser = User({
-      myUsername,
+      organizationName,
+      myAddress,
+      myTelephone,
       myEmail,
-      password: hashPass
+      myWeb,
+      username,
+      password: hashPass,
+      photo
     });
 
     newUser.save((err) => {
@@ -95,7 +104,7 @@ router.post('/signup', (req, res, next) => {
         if (err) {
           return next(err);
         }
-        return response.data(req, res, newUser.asData());
+        return response.data(req, res, newUser);
       });
     });
   });

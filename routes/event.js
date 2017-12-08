@@ -12,9 +12,9 @@ router.get('/', (req, res, next) => {
   Event.find({}, (err, eventList) => {
     if (err) {
       next(err);
-      return;
+    } else {
+      response.data(req, res, eventList);
     }
-    response.data(req, res, eventList);
   });
 });
 
@@ -49,13 +49,12 @@ router.post('/', (req, res, next) => {
   newEvent.save((err) => {
     if (err) {
       next(err);
-      return;
+    } else {
+      response.data(req, res, {
+        message: 'New Event created!',
+        id: newEvent._id
+      });
     }
-
-    response.data(req, res, {
-      message: 'New Event created!',
-      id: newEvent._id
-    });
   });
 });
 
@@ -66,7 +65,7 @@ router.delete('/:id', (req, res) => {
     return;
   }
 
-  Event.remove({ _id: req.params.id }, (err) => {
+  Event.remove({ _id: req.params.id }, (err, next) => {
     if (err) {
       next(err);
     } else {
