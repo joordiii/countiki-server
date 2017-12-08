@@ -34,6 +34,7 @@ router.post('/login', (req, res, next) => {
 
 router.post('/signup', (req, res, next) => {
   console.log(req.body);
+
   /* if (req.user) {
     return response.forbidden(req, res);
   } */
