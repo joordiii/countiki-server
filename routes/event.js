@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
 });
 
 /* GET a single Event. ---------------------------- */
-router.get('/:id', (req, res, next) => {
+router.get('/event/:id', (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     response.unprocessable(req, res, 'Specified id is not valid');
     return;
