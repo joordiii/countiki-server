@@ -20,13 +20,13 @@ router.get('/', (req, res, next) => {
 
 /* GET a single Event. ---------------------------- */
 router.get('/:id', (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.query.id;
   if (!mongoose.Types.ObjectId.isValid(eventId)) {
     response.unprocessable(req, res, 'Specified id is not valid');
     return;
   }
 
-  Event.findById(req.params.id, (err, theEvent) => {
+  Event.findById(req.query.id, (err, theEvent) => {
     if (err) {
       next(err);
     } else if (!theEvent) {
