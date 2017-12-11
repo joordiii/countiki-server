@@ -24,6 +24,7 @@ router.post('/login', (req, res, next) => {
       return response.notFound(req, res);
     }
     req.login(user, (err) => {
+      console.log('log after login', req.user);
       if (err) {
         return next(err);
       }

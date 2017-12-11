@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
 });
 
 /* GET a single Event. ---------------------------- */
-router.get('/:id', (req, res, next) => {
+/* router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     response.unprocessable(req, res, 'Specified id is not valid');
@@ -35,10 +35,10 @@ router.get('/:id', (req, res, next) => {
       response.data(req, res, theEvent);
     }
   });
-});
+}); */
 
 /* GET a single Event. ---------------------------- */
-/* router.get('/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     response.unprocessable(req, res, 'Specified id is not valid');
@@ -51,14 +51,16 @@ router.get('/:id', (req, res, next) => {
     } else if (!theEvent) {
       response.notFound(req, res);
     } else {
-      console.log('The event', theEvent.user_id.organizationName);
+      console.log('chocolate');
+      console.log('The event', theEvent.user_id);
       response.data(req, res, theEvent);
     }
   });
-}); */
+});
 
 /* CREATE a new Event. ---------------------------- */
 router.post('/', (req, res, next) => {
+  console.log('user', req.user);
   const newEvent = new Event({
     slogan: req.body.slogan,
     startDate: req.body.startDate,

@@ -46,7 +46,7 @@ app.use(session({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60 // 1 day
   }),
-  secret: 'todo-app',
+  secret: 'countiki-app',
   resave: true,
   saveUninitialized: true,
   cookie: {
@@ -63,7 +63,10 @@ app.use(passport.session());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:4200']
+}));
 
 // -- routes
 
