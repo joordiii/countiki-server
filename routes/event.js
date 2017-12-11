@@ -20,13 +20,13 @@ router.get('/', (req, res, next) => {
 
 /* GET a single Event. ---------------------------- */
 router.get('/:id', (req, res, next) => {
-  const eventId = req.params.id;
-  if (!mongoose.Types.ObjectId.isValid(eventId)) {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     response.unprocessable(req, res, 'Specified id is not valid');
     return;
   }
-
-  Event.findById(eventId, (err, theEvent) => {
+  console.log('-------', id);
+  Event.findById(id, (err, theEvent) => {
     if (err) {
       next(err);
     } else if (!theEvent) {
@@ -37,6 +37,26 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
+/* GET a single Event. ---------------------------- */
+/* router.get('/:id', (req, res, next) => {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    response.unprocessable(req, res, 'Specified id is not valid');
+    return;
+  }
+  console.log('-------', id);
+  Event.findById(id).populate('user_id').exec((err, theEvent) => {
+    if (err) {
+      next(err);
+    } else if (!theEvent) {
+      response.notFound(req, res);
+    } else {
+      console.log('The event', theEvent.user_id.organizationName);
+      response.data(req, res, theEvent);
+    }
+  });
+}); */
+
 /* CREATE a new Event. ---------------------------- */
 router.post('/', (req, res, next) => {
   const newEvent = new Event({
@@ -44,7 +64,8 @@ router.post('/', (req, res, next) => {
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     location: req.body.location,
-    description: req.body.description
+    description: req.body.description,
+    user_id: req.user._id
   });
 
   newEvent.save((err) => {
