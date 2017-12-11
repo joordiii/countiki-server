@@ -18,24 +18,16 @@ router.get('/', (req, res, next) => {
   });
 });
 
-/* GET a single Event. ---------------------------- */
-/* router.get('/:id', (req, res, next) => {
-  const id = req.params.id;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    response.unprocessable(req, res, 'Specified id is not valid');
-    return;
-  }
-  console.log('-------', id);
-  Event.findById(id, (err, theEvent) => {
+/* GET events of defined User */
+router.get('/user-events', (req, res, next) => {
+  Event.find({_id: req.user._id}, (err, eventList) => {
     if (err) {
       next(err);
-    } else if (!theEvent) {
-      response.notFound(req, res);
     } else {
-      response.data(req, res, theEvent);
+      response.data(req, res, eventList);
     }
   });
-}); */
+});
 
 /* GET a single Event. ---------------------------- */
 router.get('/:id', (req, res, next) => {
