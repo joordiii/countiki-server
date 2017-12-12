@@ -15,8 +15,8 @@ const eventSchema = new Schema({
     type: String
   },
   location: {
-    latitude: String,
-    longitude: String
+    latitude: Number,
+    longitude: Number
   },
   description: {
     type: String
@@ -32,8 +32,8 @@ const eventSchema = new Schema({
     ref: 'User'
   },
   attendance: [{
-    lat: String,
-    lng: String
+    lat: Number,
+    lng: Number
   }]
 });
 

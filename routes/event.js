@@ -20,9 +20,9 @@ router.get('/', (req, res, next) => {
 
 /* GET events of defined User */
 router.get('/user-events', (req, res, next) => {
-  Event.find({_id: req.user._id}, (err, eventList) => {
+  Event.find({user_id: req.user._id}, (err, eventList) => {
     if (err) {
-      next(err);
+      return next(err);
     } else {
       response.data(req, res, eventList);
     }
