@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -22,21 +23,11 @@ const app = express();
 
 // -- database
 
-const dbName = 'countikidb';
-
 mongoose.Promise = Promise;
-mongoose.Promise = Promise;
-mongoose.connect(`mongodb://localhost/${dbName}`, {
+mongoose.connect(process.env.MONGODB_URI, {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE,
   useMongoClient: true
-});
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log(`Connected to the ${dbName} database`);
 });
 
 // -- session
@@ -63,9 +54,10 @@ app.use(passport.session());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:4200']
+  origin: process.env.CLIENT_URL
 }));
 
 // -- routes
