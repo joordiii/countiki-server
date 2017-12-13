@@ -53,13 +53,16 @@ router.get('/:id', (req, res, next) => {
 /* CREATE a new Event. ---------------------------- */
 router.post('/', (req, res, next) => {
   console.log('user', req.user);
+  console.log('req.body', req.body);
   const newEvent = new Event({
-    slogan: req.body.slogan,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
-    location: req.body.location,
-    description: req.body.description,
-    user_id: req.user._id
+    slogan: req.body.eventForm.slogan,
+    startDate: req.body.eventForm.startDate,
+    endDate: req.body.eventForm.endDate,
+    location: {
+      coordinates: [req.body.eventForm.location.latitude, req.body.eventForm.location.longitude]
+    },
+    description: req.body.eventForm.description,
+    user_id: req.body.user._id
   });
 
   newEvent.save((err) => {

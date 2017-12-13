@@ -9,24 +9,21 @@ const eventSchema = new Schema({
     type: String
   },
   startDate: {
-    type: String
+    type: Date
   },
   endDate: {
-    type: String
+    type: Date
   },
+
   location: {
-    latitude: Number,
-    longitude: Number
-  },
-  description: {
-    type: String
-  },
-  /*  location: {
     type: {
       type: String
     },
     coordinates: [Number]
-  }, */
+  },
+  description: {
+    type: String
+  },
   user_id: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -36,6 +33,8 @@ const eventSchema = new Schema({
     lng: Number
   }]
 });
+
+eventSchema.index({ location: '2dsphere' });
 
 const Event = mongoose.model('Event', eventSchema);
 module.exports = {
