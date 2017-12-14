@@ -60,6 +60,7 @@ router.post('/', (req, res, next) => {
     startDate: req.body.eventForm.startDate,
     endDate: req.body.eventForm.endDate,
     location: {
+      type: 'Point',
       coordinates: [req.body.eventForm.location.latitude, req.body.eventForm.location.longitude]
     },
     description: req.body.eventForm.description,
