@@ -63,8 +63,10 @@ router.post('/', (req, res, next) => {
       coordinates: [req.body.eventForm.location.latitude, req.body.eventForm.location.longitude]
     },
     description: req.body.eventForm.description,
+    address: req.body.eventForm.address,
     user_id: req.body.user._id
   });
+  console.log('req body', req.body);
 
   newEvent.save((err) => {
     if (err) {

@@ -69,9 +69,9 @@ router.post('/signup', (req, res, next) => {
   if (!password) {
     return response.unprocessable(req, res, 'Missing mandatory field "Password".');
   }
-  if (!photo) {
+  /* if (!photo) {
     return response.unprocessable(req, res, 'Missing mandatory field "Photo".');
-  }
+  } */
 
   User.findOne({
     username: username

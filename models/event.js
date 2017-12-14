@@ -31,7 +31,10 @@ const eventSchema = new Schema({
   attendance: [{
     lat: Number,
     lng: Number
-  }]
+  }],
+  address: {
+    type: String
+  }
 });
 
 eventSchema.index({ location: '2dsphere' });
