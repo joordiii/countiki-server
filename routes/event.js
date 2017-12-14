@@ -20,6 +20,7 @@ router.get('/', (req, res, next) => {
 
 /* GET events of defined User */
 router.get('/user-events', (req, res, next) => {
+  console.log('aqui estamos', req.user);
   Event.find({user_id: req.user._id}, (err, eventList) => {
     if (err) {
       return next(err);
@@ -72,6 +73,33 @@ router.post('/', (req, res, next) => {
       response.data(req, res, {
         message: 'New Event created!',
         id: newEvent._id
+      });
+    }
+  });
+});
+
+/* Add a new attendee at the Event */
+router.put('/:id', (req, res, next) => {
+  const id = req.params.id;
+  // Find the existing resource by ID
+  Event.findById(id, (err, event) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      event.attendance.push(req.body.location);
+      /* event.slogan;
+      event.slogan;
+      event.endDate;
+      event.location;
+      event.description;
+      event.ser_id; */
+
+      // Save the updated document back to the database
+      event.save((err, todo) => {
+        if (err) {
+          res.status(500).json(err);
+        }
+        res.status(200).json(event);
       });
     }
   });

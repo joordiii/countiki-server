@@ -10,7 +10,6 @@ const User = require('../models/user').User;
 
 router.post('/login', (req, res, next) => {
   console.log('Hello from backend');
-  console.log(req.user);
   if (req.user) {
     return response.forbidden(req, res);
   }

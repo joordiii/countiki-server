@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('../config/multer');
 
 const response = require('../helpers/response');
 
@@ -9,3 +10,8 @@ router.get('/', (req, res, next) => {
 });
 
 module.exports = router;
+
+/* Upload. */
+router.post('/upload', upload.single('file'), (req, res, next) => {
+  res.json({ filename: `/uploads/${req.file.filename}` });
+});

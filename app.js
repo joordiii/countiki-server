@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -66,6 +65,7 @@ app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
 app.use('/event', event);
+app.use('/uploads', index);
 
 // -- 404 and error handler
 
